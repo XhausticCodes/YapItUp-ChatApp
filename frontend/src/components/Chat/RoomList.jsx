@@ -58,7 +58,7 @@ const RoomList = ({
   }
 
   return (
-    <div className="w-64 bg-gray-800 text-white flex flex-col h-full">
+    <div className="w-64 bg-neutral-900 text-white flex flex-col h-full">
       <div className="p-4 border-b border-gray-700">
         <h2 className="text-xl font-bold mb-2">Chat Rooms</h2>
         <button

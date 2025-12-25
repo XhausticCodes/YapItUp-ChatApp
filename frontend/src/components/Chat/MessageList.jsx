@@ -290,7 +290,7 @@ const MessageList = ({ roomId, onNewMessage }) => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 bg-gray-100">
+    <div className="flex-1 overflow-y-auto p-4 bg-neutral-200">
       {/* Show message if no messages exist */}
       {messages.length === 0 ? (
         <div className="flex items-center justify-center h-full text-gray-500">

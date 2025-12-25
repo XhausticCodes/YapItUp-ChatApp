@@ -1,6 +1,6 @@
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
-const SOCKET_URL = 'http://localhost:9092';
+const SOCKET_URL = "http://localhost:9092";
 
 let socket = null;
 
@@ -13,7 +13,7 @@ export const connectSocket = (token) => {
     query: {
       token: token,
     },
-    transports: ['websocket', 'polling'],
+    transports: ["websocket", "polling"],
   });
 
   return socket;

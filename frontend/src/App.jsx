@@ -1,17 +1,26 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
-import ChatRoom from './components/Chat/ChatRoom';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
+import ChatRoom from "./components/Chat/ChatRoom";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
-  
+
   return user ? children : <Navigate to="/login" />;
 };
 

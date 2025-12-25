@@ -1,37 +1,130 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import FloatingLines from "../../../public/FloatingLines/FloatingLines.jsx";
+import Particles from "../../../public/Particles/Particles.jsx";
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  const validateEmail = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  };
+
+  const validateForm = () => {
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const errors = {
+      username: "",
+      email: "",
+      password: "",
+    };
+
+    if (!trimmedUsername) {
+      errors.username = "Username is required.";
+    } else if (trimmedUsername.length < 3) {
+      errors.username = "Username must be at least 3 characters.";
+    }
+
+    if (!trimmedEmail) {
+      errors.email = "Email is required.";
+    } else if (!validateEmail(trimmedEmail)) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    if (!trimmedPassword) {
+      errors.password = "Password is required.";
+    } else if (trimmedPassword.length < 6) {
+      errors.password = "Password must be at least 6 characters.";
+    }
+
+    setFieldErrors(errors);
+    return !Object.values(errors).some(Boolean);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
+
+    if (!validateForm()) {
+      return;
+    }
+
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    setUsername(trimmedUsername);
+    setEmail(trimmedEmail);
+    setPassword(trimmedPassword);
+
     setLoading(true);
 
-    const result = await register(username, email, password);
-    
-    if (result.success) {
-      navigate('/chat');
-    } else {
-      setError(result.error);
+    try {
+      const result = await register(
+        trimmedUsername,
+        trimmedEmail,
+        trimmedPassword
+      );
+
+      if (result.success) {
+        navigate("/chat");
+      } else {
+        setError(result.error || "Unable to register with those details.");
+      }
+    } catch (err) {
+      console.error("Registration failed", err);
+      setError(
+        err?.message || "Unable to register right now. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Register</h2>
-        
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <FloatingLines
+        className="absolute inset-0 -z-10 pointer-events-none"
+        style={{ position: "absolute" }}
+        enabledWaves={["top", "middle", "bottom"]}
+        lineCount={[5, 5, 5]}
+        lineDistance={[100, 100, 100]}
+        bendRadius={30}
+        bendStrength={15}
+        interactive={true}
+        parallax={true}
+      />
+      <Particles
+        className="absolute inset-0 -z-110 pointer-events-none bg-black"
+        style={{ position: "absolute" }}
+        particleColors={["#3B82F6","#A855F7"]}
+        particleCount={150}
+        particleSpread={10}
+        speed={0.1}
+        particleBaseSize={100}
+        moveParticlesOnHover={true}
+        alphaParticles={false}
+        disableRotation={false}
+      />
+      <div className="relative z-10 bg-white/10 backdrop-blur-xl px-10 py-10 rounded-lg shadow-xl w-[400px] max-w-md">
+        <h2 className="text-5xl font-bold text-center mb-10 text-white tracking-wider">
+          REGISTER
+        </h2>
+
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
@@ -40,53 +133,66 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Username</label>
+            <label className="block text-white font-semibold mb-2">
+              Username
+            </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
             />
+            {fieldErrors.username && (
+              <p className="text-center mt-1 text-sm text-red-500">
+                {fieldErrors.username}
+              </p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Email</label>
+            <label className="block text-white font-semibold mb-2">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
             />
+            {fieldErrors.email && (
+              <p className="text-center mt-1 text-sm text-red-500">{fieldErrors.email}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Password</label>
+            <label className="block text-white font-semibold mb-2">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-              minLength={6}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
             />
+            {fieldErrors.password && (
+              <p className="text-center mt-1 text-sm text-red-500">
+                {fieldErrors.password}
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-5 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-600">
-          Already have an account?{' '}
+        <p className="mt-4 text-center text-white">
+          Already have an account?{" "}
           <button
-            onClick={() => navigate('/login')}
-            className="text-blue-500 hover:underline"
+            onClick={() => navigate("/login")}
+            className="text-blue-500 hover:underline cursor-pointer"
           >
             Login
           </button>

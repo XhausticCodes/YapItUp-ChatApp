@@ -184,7 +184,7 @@ const ChatRoom = () => {
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       {/* Header Bar */}
-      <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <div className="bg-neutral-800 text-white p-4 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold">YapItUp Chat</h1>
           <div className="text-sm opacity-90">
@@ -221,11 +221,11 @@ const ChatRoom = () => {
           {selectedRoom ? (
             <>
               {/* Room Header */}
-              <div className="bg-white p-4 border-b border-gray-300 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+              <div className="bg-neutral-700 p-4 border-b border-neutral-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                  <h2 className="text-xl font-semibold">{selectedRoom.name}</h2>
+                  <h2 className="text-xl text-white font-semibold">{selectedRoom.name}</h2>
                   {selectedRoom.description && (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-white/70">
                       {selectedRoom.description}
                     </p>
                   )}

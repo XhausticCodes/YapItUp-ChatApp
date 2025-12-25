@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8081/api';
+const API_BASE_URL = "http://localhost:8081/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Add token to requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,22 +25,22 @@ api.interceptors.request.use(
 
 // Auth APIs
 export const authAPI = {
-  register: (data) => api.post('/auth/register', data),
-  login: (data) => api.post('/auth/login', data),
+  register: (data) => api.post("/auth/register", data),
+  login: (data) => api.post("/auth/login", data),
 };
 
 // Room APIs
 export const roomAPI = {
-  getAll: () => api.get('/rooms'),
+  getAll: () => api.get("/rooms"),
   getById: (id) => api.get(`/rooms/${id}`),
-  create: (data) => api.post('/rooms', data),
+  create: (data) => api.post("/rooms", data),
   join: (roomId) => api.post(`/rooms/${roomId}/join`),
   leave: (roomId) => api.post(`/rooms/${roomId}/leave`),
 };
 
 // Message APIs
 export const messageAPI = {
-  send: (data) => api.post('/messages', data),
+  send: (data) => api.post("/messages", data),
   getByRoom: (roomId) => api.get(`/messages/room/${roomId}/all`),
 };
 

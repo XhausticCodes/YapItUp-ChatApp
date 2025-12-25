@@ -134,7 +134,7 @@ const MessageInput = ({ roomId, onMessageSent }) => {
   };
 
   return (
-    <div className="p-4 bg-white border-t border-gray-300">
+    <div className="p-4 bg-neutral-700 border-t border-gray-300">
       <form onSubmit={handleSubmit} className="flex space-x-2">
         <input
           type="text"
@@ -144,7 +144,7 @@ const MessageInput = ({ roomId, onMessageSent }) => {
             handleTyping(); // Show typing indicator
           }}
           placeholder="Type a message..."
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
         />
         <button
           type="submit"
