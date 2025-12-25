@@ -73,28 +73,11 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* <ColorBends
-        className="absolute inset-0 -z-10 pointer-events-none"
-        style={{ position: "absolute", backgroundColor: "black" }}
-        colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
-        rotation={0}
-        autoRotate={0}
-        speed={0.2}
-        scale={1}
-        frequency={1}
-        warpStrength={1}
-        mouseInfluence={1}
-        parallax={0.5}
-        noise={0.1}
-        transparent
-      /> */}
       <FloatingLines
         className="absolute inset-0 -z-10 pointer-events-none"
         style={{ position: "absolute" }}
         enabledWaves={["top", "middle", "bottom"]}
-        // Array - specify line count per wave; Number - same count for all waves
         lineCount={[5, 5, 5]}
-        // Array - specify line distance per wave; Number - same distance for all waves
         lineDistance={[100, 100, 100]}
         bendRadius={30}
         bendStrength={15}

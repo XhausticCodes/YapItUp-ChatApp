@@ -15,12 +15,10 @@ const RoomList = ({
 
   useEffect(() => {
     loadRooms();
-    // Refresh rooms every 5 seconds
     const interval = setInterval(loadRooms, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  // Reload rooms when refreshKey changes
   useEffect(() => {
     loadRooms();
   }, [refreshKey]);

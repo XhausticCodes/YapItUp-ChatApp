@@ -9,7 +9,6 @@ const api = axios.create({
   },
 });
 
-// Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -23,13 +22,11 @@ api.interceptors.request.use(
   }
 );
 
-// Auth APIs
 export const authAPI = {
   register: (data) => api.post("/auth/register", data),
   login: (data) => api.post("/auth/login", data),
 };
 
-// Room APIs
 export const roomAPI = {
   getAll: () => api.get("/rooms"),
   getById: (id) => api.get(`/rooms/${id}`),
@@ -38,7 +35,6 @@ export const roomAPI = {
   leave: (roomId) => api.post(`/rooms/${roomId}/leave`),
 };
 
-// Message APIs
 export const messageAPI = {
   send: (data) => api.post("/messages", data),
   getByRoom: (roomId) => api.get(`/messages/room/${roomId}/all`),

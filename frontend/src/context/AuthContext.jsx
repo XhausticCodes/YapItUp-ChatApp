@@ -15,7 +15,6 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Restore user from localStorage on initial load
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -25,10 +24,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       if (token) {
-        // Connect socket if token exists
         connectSocket(token);
         
-        // If user info is not in state but token exists, restore from localStorage
         if (!user) {
           const savedUser = localStorage.getItem("user");
           if (savedUser) {
@@ -54,7 +51,6 @@ export const AuthProvider = ({ children }) => {
       setToken(newToken);
       setUser(userData);
 
-      // Connect socket
       connectSocket(newToken);
 
       return { success: true };
@@ -78,7 +74,6 @@ export const AuthProvider = ({ children }) => {
       setToken(newToken);
       setUser(userData);
 
-      // Connect socket
       connectSocket(newToken);
 
       return { success: true };
@@ -107,7 +102,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Leave room if in one
     const socket = getSocket();
     if (socket && socket.connected) {
       socket.disconnect();
